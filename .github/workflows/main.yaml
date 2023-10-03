@@ -1,0 +1,42 @@
+name: Deploy to DigitalOcean & Mirror to GitHub
+
+env:
+  MIRROR_SSH: git@github.com:EpitechPromo2026/B-DOP-500-NCE-5-1-bernstein-gwenael.hubler.git
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+#  deploy:
+#    name: Deploy to DigitalOcean
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout Repository
+#        uses: actions/checkout@v4
+#      - name: Install doctl
+#        uses: digitalocean/action-doctl@v2
+#        with:
+#          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+#      - name: Save DigitalOcean kubeconfig with short-lived credentials
+#        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.CLUSTER_NAME }}
+#      - name: Apply all Kubernetes configuration files in the current directory
+#        run: kubectl apply -f .
+  mirror:
+    name: Mirror repository
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Mirror repository
+        uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url:
+            ${{ env.MIRROR_URL }}
+          ssh_private_key:
+            ${{ secrets.GIT_SSH_PRIVATE_KEY }}
