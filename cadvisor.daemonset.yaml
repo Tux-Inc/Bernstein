@@ -55,3 +55,14 @@ spec:
         - name: docker
           hostPath:
             path: /var/lib/docker
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - pool-dop-ykf46
+                      - pool-dop-ykf4t
+              topologyKey: "kubernetes.io/hostname"
