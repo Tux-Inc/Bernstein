@@ -27,7 +27,7 @@ spec:
               readOnly: true
             - name: var-run
               mountPath: /var/run
-              readOnly: false
+              readOnly: true
             - name: sys
               mountPath: /sys
               readOnly: true
@@ -42,8 +42,7 @@ spec:
               containerPort: 8080
               protocol: TCP
           args:
-            - --profiling
-            - --housekeeping_interval=1s
+            - --housekeeping_interval=30s
       terminationGracePeriodSeconds: 30
       volumes:
         - name: rootfs
